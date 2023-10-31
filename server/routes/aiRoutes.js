@@ -8,7 +8,6 @@ dotenv.config();
 const router = express.Router();
 
 const configuration = new Configuration({
-    organization: "org-rpkX3UULHHM0WX7gUUHWTXV1",
     apiKey: process.env.OPEN_API_KEY,
 });
 
@@ -22,7 +21,8 @@ router.get('/',async (req,res)=> {
 router.post('/',async(req,res)=>{
     try {
         const {prompt} = req.body;
-        console.log(prompt);
+        console.log(process.env.OPEN_API_KEY);
+        // console.log(prompt);
 
         const aiResponse = await openai.createImage({
             prompt,
@@ -35,7 +35,7 @@ router.post('/',async(req,res)=>{
 
         res.status(200).json({photo: image});
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.status(500).send(error?.response.data.error.message);
     }
 })
